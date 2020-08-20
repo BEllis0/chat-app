@@ -32,8 +32,8 @@ io.on('connection', (socket) => {
 
     // user sends message
     socket.on('message', (msg) => {
-        console.log('message: ' + msg);
-    });
+        io.emit('message', msg);
+      });
   });
 
 //server listen
