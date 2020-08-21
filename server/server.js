@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const dbConnection = require('../database/config.js');
 
 const path = require('path');
 
@@ -9,6 +10,10 @@ require('dotenv').config();
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+
+// load socket handlers, pass in io object
+const socket_events = require('./socket_events.js');
+socket_events.start(io);
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,22 +24,6 @@ app.use(express.json());
 
 // ==== serve static files
 app.use(express.static(path.join(__dirname, '../client/public')));
-
-
-// socket.io listening
-io.on('connection', (socket) => {
-    console.log('a user connected');
-
-    // user disconnects
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-
-    // user sends message
-    socket.on('message', (msg) => {
-        io.emit('message', msg);
-      });
-  });
 
 //server listen
 http.listen(PORT, () => {
