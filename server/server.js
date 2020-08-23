@@ -3,6 +3,9 @@ const morgan = require('morgan');
 const cors = require('cors');
 const dbConnection = require('../database/config.js');
 
+// routes
+const messagesRoutes = require('./routes/messages.js');
+
 const path = require('path');
 
 require('dotenv').config();
@@ -14,6 +17,9 @@ const io = require('socket.io')(http);
 // load socket handlers, pass in io object
 const socket_events = require('./socket_events.js');
 socket_events.start(io);
+
+// routes
+app.use('/api/v1/messages', messagesRoutes);
 
 const PORT = process.env.PORT || 3000;
 
