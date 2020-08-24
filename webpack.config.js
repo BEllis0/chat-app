@@ -6,7 +6,7 @@ var DIST_DIR = path.join(__dirname, '/client/public');
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  entry: `${SRC_DIR}/index.js`,
+  entry: ['@babel/polyfill', `${SRC_DIR}/index.js`],
   output: {
     filename: 'bundle.js',
     path: DIST_DIR
