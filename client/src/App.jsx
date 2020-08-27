@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import MessagesView from './components/Views/MessagesView/MessagesView.jsx';
 import LoginView from './components/Views/LoginView/LoginView.jsx';
 
@@ -9,7 +9,7 @@ class App extends React.Component {
 
         this.state = {
             messages: [],
-            username: 'testuser',
+            username: 'Guest',
             room: ''
         };
 
@@ -49,7 +49,12 @@ class App extends React.Component {
 
     handleLoginSubmit(e) {
         e.preventDefault();
-        console.log('submited')
+
+        socket.emit('connectionMessage', `${this.state.username} has joined the chat`);
+        
+        // TEMPORARY: causing page refresh, need to use history to navigate
+        // navigate to chat view
+        window.location.href = '/chat'
     }
 
     componentDidMount() {
@@ -59,18 +64,18 @@ class App extends React.Component {
         // get all messages from db
         this.getAllMessages();
 
+        // listen for user connection messages
         socket.on('connectionMessage', msg => {
-            console.log('message in component did mount', msg)
+            console.log('connection message: ', msg)
         });
 
+        // listen for chat messages
         socket.on('message', messages => {
             this.setState({
                 messages: messages
             });
         });
-
     }
-
 
     render() {
         return (
