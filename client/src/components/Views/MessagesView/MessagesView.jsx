@@ -5,7 +5,9 @@ import MessageList from '../../MessageList/MessageList.jsx';
 const MessagesView = props => {
     return (
         <div>
-            <MessageForm pushMessage={props.pushMessage} />
+            <MessageForm 
+                getAllMessages={props.getAllMessages}
+            />
             <MessageList messages={props.messages} />
         </div>
     )
