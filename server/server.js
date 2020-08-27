@@ -31,6 +31,11 @@ app.use(express.json());
 // ==== serve static files
 app.use(express.static(path.join(__dirname, '../client/public')));
 
+//routes everything to html page, troubleshoots refreshing
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/public/index.html'));
+});
+
 //server listen
 http.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
