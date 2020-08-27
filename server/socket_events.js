@@ -5,23 +5,26 @@ module.exports = {
         // socket.io listening
         io.on('connection', (socket) => {
             
-            // message for new user
-            // socket.emit('message', 'Welcome to chat');
+            let username = 'User';
 
-            socket.emit('chatMessage', 'test message')
-
-            // broadcast is shared with all connections other than new user
-            // socket.broadcast.emit('message', 'A user has joined the chat');
-            
             // user disconnects
             socket.on('disconnect', () => {
                 console.log('user disconnected');
-                // io.emit('message', 'A user has left the chat')
+                io.emit('connectionMessage', `${username} has left the chat`);
+            });
+
+            // new user connection message
+            socket.on('connectionMessage', (msg) => {
+                // set username for disconnect
+                username = msg.split(' ')[0];
+                
+                socket.broadcast.emit('connectionMessage', msg);
             });
 
             // user sends message
             socket.on('message', async (msg) => {
                 
+                // add message to db
                 await addMessage(msg)
                     .then(res => {
                         console.log('Message added to db');
@@ -30,8 +33,10 @@ module.exports = {
                         console.log('Error adding message to db', err);
                     });
                 
+                // get all messages from db
                 await getAllMessages()
                     .then(res => {
+                        // send all data back to client
                         io.emit('message', res.rows);
                     })
                     .catch(err => {
