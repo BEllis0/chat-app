@@ -3,7 +3,7 @@ import React from 'react';
 export default class MessageForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props)
+
         this.state = {
             messageText: '',
         };
@@ -19,17 +19,11 @@ export default class MessageForm extends React.Component {
     }
 
     handleSubmit(e) {
-        
+        e.preventDefault();
         let props = this.props;
         
         // send event with message
         socket.emit('message', this.state.messageText);
-        // listen for new messages
-        socket.on('message', function(msg){
-            props.pushMessage(msg);
-        });
-
-        e.preventDefault();
     }
 
     render() {
