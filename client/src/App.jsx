@@ -1,6 +1,7 @@
 import React from 'react';
-import socketIOClient from "socket.io-client";
+import { Route } from 'react-router-dom';
 import MessagesView from './components/Views/MessagesView/MessagesView.jsx';
+import LoginView from './components/Views/LoginView/LoginView.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -8,11 +9,15 @@ class App extends React.Component {
 
         this.state = {
             messages: [],
-            username: 'testuser'
+            username: 'testuser',
+            room: ''
         };
 
         //bindings
         this.getAllMessages = this.getAllMessages.bind(this);
+        this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+        this.handleLoginRoomChange = this.handleLoginRoomChange.bind(this);
+        this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
     }
 
     getAllMessages() {
@@ -21,7 +26,6 @@ class App extends React.Component {
             return response.json();
         })
         .then(messages => {
-            console.log('Response of all messages in client', messages.rows);
             this.setState({
                 messages: messages.rows
             });
@@ -31,6 +35,23 @@ class App extends React.Component {
         });
     }
 
+    handleLoginUsernameChange(e) {
+        this.setState({
+            username: e.target.value
+        });
+    }
+
+    handleLoginRoomChange(e) {
+        this.setState({
+            room: e.target.value
+        });
+    }
+
+    handleLoginSubmit(e) {
+        e.preventDefault();
+        console.log('submited')
+    }
+
     componentDidMount() {
         // socket init
         window.socket = io();
@@ -38,27 +59,42 @@ class App extends React.Component {
         // get all messages from db
         this.getAllMessages();
 
-        socket.on('chatMessage', msg => {
+        socket.on('connectionMessage', msg => {
             console.log('message in component did mount', msg)
-            // this.getAllMessages();
         });
 
         socket.on('message', messages => {
             this.setState({
                 messages: messages
-            }, () => console.log('messages state', this.state.messages))
+            });
         });
 
     }
 
 
     render() {
-        console.log('state in app comp', this.state.messages)
         return (
             <div className="appContainer">
-                <MessagesView
-                    getAllMessages={this.getAllMessages}
-                    messages={this.state.messages}
+                <Route 
+                    exact 
+                    path="/"
+                    render={(props) => 
+                        <LoginView
+                            room={this.state.room}
+                            handleLoginRoomChange={this.handleLoginRoomChange}
+                            handleLoginUsernameChange={this.handleLoginUsernameChange}
+                            handleLoginSubmit={this.handleLoginSubmit}
+                        />
+                    }
+                />
+                <Route
+                    path="/chat"
+                    render={(props) => 
+                        <MessagesView
+                            getAllMessages={this.getAllMessages}
+                            messages={this.state.messages}
+                        />
+                    }
                 />
             </div>
         )
