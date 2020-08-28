@@ -3,6 +3,8 @@ import { Route, useHistory } from 'react-router-dom';
 import MessagesView from './components/Views/MessagesView/MessagesView.jsx';
 import LoginView from './components/Views/LoginView/LoginView.jsx';
 
+import styles from './master.scss';
+
 class App extends React.Component {
     constructor(props) {
         super(props);
