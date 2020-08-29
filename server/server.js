@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const dbConnection = require('../database/config.js');
+const { truncateMessagesInterval } = require('./utils/truncateMessagesInterval.js');
 
 // routes
 const messagesRoutes = require('./routes/messages.js');
@@ -35,6 +35,9 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
+
+// set db messages table to truncate in 1 month
+// truncateMessagesInterval(2592000000);
 
 //server listen
 http.listen(PORT, () => {
