@@ -7,8 +7,11 @@ const MessagesView = props => {
         <div>
             <MessageForm 
                 getAllMessages={props.getAllMessages}
+                handleMessageSubmit={props.handleMessageSubmit}
             />
-            <MessageList messages={props.messages} />
+            <MessageList 
+                messages={props.messages} 
+            />
         </div>
     )
 };
