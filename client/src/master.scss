@@ -1,0 +1,74 @@
+@import './variables.scss';
+
+// global
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    height: 100vh;
+    background-image: url("../public/assets/chat_app_background.png"), linear-gradient($purplergba, $purplergba);
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+}
+
+// Containers
+
+.appContainer {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+// Helpers
+
+.flex {
+    display: flex;
+}
+
+.f-row {
+    flex-direction: row;
+}
+
+.f-column {
+    flex-direction: column;
+}
+
+.block {
+    display: block;
+}
+
+.rm-margin {
+    margin: 0 0 !important;
+}
+
+.rm-margin-top {
+    margin-top: 0 !important;
+}
+
+.rm-margin-bottom {
+    margin-bottom: 0 !important;
+}
+
+// buttons
+.button {
+    padding: 12px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    background-color: $buttonBackgroundColor;
+    color: $buttonTextColor;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+}
+
+button:active {
+    outline: none;
+    border: none;
+  }
+
+button:focus {
+outline: 0;
+}
