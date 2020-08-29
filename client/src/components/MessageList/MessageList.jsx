@@ -1,6 +1,7 @@
 import React from 'react';
 
 const MessageList = props => {
+    console.log('message list props', props)
     return (
         <div>
             <h3>Messages</h3>

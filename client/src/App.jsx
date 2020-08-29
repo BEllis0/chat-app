@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import {withRouter} from 'react-router-dom'; //access to history
+import { Route } from 'react-router-dom';
 import MessagesView from './components/Views/MessagesView/MessagesView.jsx';
 import LoginView from './components/Views/LoginView/LoginView.jsx';
 
@@ -18,6 +19,7 @@ class App extends React.Component {
         //bindings
         this.getAllMessages = this.getAllMessages.bind(this);
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+        this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
         this.handleLoginRoomChange = this.handleLoginRoomChange.bind(this);
         this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
     }
@@ -52,11 +54,20 @@ class App extends React.Component {
     handleLoginSubmit(e) {
         e.preventDefault();
 
+        // send connection message to server
         socket.emit('connectionMessage', `${this.state.username} has joined the chat`);
-        
-        // TEMPORARY: causing page refresh, need to use history to navigate
-        // navigate to chat view
-        window.location.href = '/chat'
+  
+        // re-route to chat component view
+        this.props.history.push('/chat');
+    }
+
+    handleMessageSubmit(message) {
+        // send event with message object
+        socket.emit('message', {
+            message: message,
+            username: this.state.username,
+            room: this.state.room
+        });
     }
 
     componentDidMount() {
@@ -87,6 +98,7 @@ class App extends React.Component {
                     path="/"
                     render={(props) => 
                         <LoginView
+                            history={props}
                             room={this.state.room}
                             handleLoginRoomChange={this.handleLoginRoomChange}
                             handleLoginUsernameChange={this.handleLoginUsernameChange}
@@ -99,6 +111,7 @@ class App extends React.Component {
                     render={(props) => 
                         <MessagesView
                             getAllMessages={this.getAllMessages}
+                            handleMessageSubmit={this.handleMessageSubmit}
                             messages={this.state.messages}
                         />
                     }
@@ -108,4 +121,5 @@ class App extends React.Component {
     }
 };
 
-export default App;
+// withRouter allows for history access
+export default withRouter(App);
