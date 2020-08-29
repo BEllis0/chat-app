@@ -25,7 +25,7 @@ module.exports = {
             socket.on('message', async (msg) => {
                 
                 // add message to db
-                await addMessage(msg)
+                await addMessage(msg.message, msg.username, msg.room)
                     .then(res => {
                         console.log('Message added to db');
                     })
