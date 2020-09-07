@@ -1,0 +1,12 @@
+@import '../../variables.scss';
+
+.errorMessageContainer {
+    // width: 100%;
+    background-color: $errorRed;
+    color: white;
+    padding: 20px 15px;
+}
+
+.errorMessage {
+    margin: 0 0;
+}
