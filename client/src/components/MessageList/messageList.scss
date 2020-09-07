@@ -4,6 +4,7 @@
     padding: 10px 20px;
     height: 400px;
     overflow-y: scroll;
+    background-color: $messagesBackground;
 }
 
 .message {
@@ -16,4 +17,8 @@
 .messageDate {
     margin-left: 10px;
     color: $purplergba;
+}
+
+.emptyMessage {
+    color: $white;
 }

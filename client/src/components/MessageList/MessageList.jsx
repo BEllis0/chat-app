@@ -12,6 +12,11 @@ const MessageList = props => {
 
     return (
         <div className="messageListContainer">
+            {props.messages.length === 0 &&
+                <div className="emptyMessageContainer">
+                    <p className="emptyMessage">No messages to display</p>
+                </div>
+            }
             {props.messages.map(message => {
                 return (
                     <div className="message" key={message.id}>
