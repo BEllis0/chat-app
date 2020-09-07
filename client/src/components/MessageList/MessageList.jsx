@@ -16,8 +16,8 @@ const MessageList = props => {
                 return (
                     <div className="message" key={message.id}>
                         <div className="flex">
-                            <p>{message.username}</p>
-                            <p>{dateConverter(message._date, 'hourly')}</p>
+                            <p className="messageUsername">{message.username}</p>
+                            <p className="messageDate">{dateConverter(message._date, 'hourly')}</p>
                         </div>
                         <p className="rm-margin">{message.message}</p>
                     </div>
