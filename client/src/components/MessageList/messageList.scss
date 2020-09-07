@@ -26,6 +26,14 @@
     color: $purplergba;
 }
 
+.messageUsername {
+    font-weight: 550;
+}
+
+.messageUsername, .messageDate {
+    margin-top: 0px;
+}
+
 .emptyMessage {
     color: $white;
 }
