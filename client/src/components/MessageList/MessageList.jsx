@@ -10,6 +10,8 @@ const MessageList = props => {
         messageList.scrollTop = messageList.scrollHeight;
     });
 
+    console.log(props)
+
     return (
         <div className="messageListContainer">
             {props.messages.length === 0 &&
@@ -19,7 +21,10 @@ const MessageList = props => {
             }
             {props.messages.map(message => {
                 return (
-                    <div className="message" key={message.id}>
+                    <div
+                        className={props.username === message.username ? "currentUser message" : "otherUser message"} 
+                        key={message.id}
+                    >
                         <div className="flex">
                             <p className="messageUsername">{message.username}</p>
                             <p className="messageDate">{dateConverter(message._date, 'hourly')}</p>
