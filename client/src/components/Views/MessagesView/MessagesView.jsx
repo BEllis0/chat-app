@@ -19,7 +19,8 @@ const MessagesView = props => {
                 />
                 <div className="messagesModule">
                     <MessageList 
-                        messages={props.messages} 
+                        messages={props.messages}
+                        username={props.username}
                     />
                     {props.errorMessage !== undefined &&
                         <ErrorMessage 
