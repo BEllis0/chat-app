@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './messageForm.scss';
 
 export default class MessageForm extends React.Component {
     constructor(props) {

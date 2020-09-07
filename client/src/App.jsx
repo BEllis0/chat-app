@@ -6,6 +6,7 @@ import LoginView from './components/Views/LoginView/LoginView.jsx';
 
 import styles from './master.scss';
 
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +14,8 @@ class App extends React.Component {
         this.state = {
             messages: [],
             username: 'Guest',
-            room: ''
+            room: '',
+            activeUsers: []
         };
 
         //bindings
@@ -51,11 +53,12 @@ class App extends React.Component {
         });
     }
 
-    handleLoginSubmit(e) {
+    async handleLoginSubmit(e) {
         e.preventDefault();
 
-        // send connection message to server
-        socket.emit('connectionMessage', `${this.state.username} has joined the chat`);
+
+        // send connection message to server with username
+        await socket.emit('connectionMessage', this.state.activeUsers.concat(this.state.username));
   
         // re-route to chat component view
         this.props.history.push('/chat');
@@ -78,8 +81,27 @@ class App extends React.Component {
         this.getAllMessages();
 
         // listen for user connection messages
-        socket.on('connectionMessage', msg => {
-            console.log('connection message: ', msg)
+        socket.on('connectionMessage', usernameArr => {
+            
+            // let activeUsers = this.state.activeUsers.concat(username);
+            
+            // add the new active user to state
+            this.setState({ 
+                activeUsers: usernameArr
+            }, () => console.log('new active users state', this.state.activeUsers));
+        });
+
+        // listen for disconnection message
+        socket.on('disconnectionMessage', username => {
+            // filter disconnected user from active user arr
+            let filteredUsers = this.state.activeUsers.filter(users => {
+                return users !== username;
+            });
+
+            // set state to filtered array
+            this.setState({
+                activeUsers: filteredUsers
+            }, () => console.log('user removed', this.state.activeUsers));
         });
 
         // listen for chat messages
@@ -110,6 +132,7 @@ class App extends React.Component {
                     path="/chat"
                     render={(props) => 
                         <MessagesView
+                            activeUsers={this.state.activeUsers}
                             getAllMessages={this.getAllMessages}
                             handleMessageSubmit={this.handleMessageSubmit}
                             messages={this.state.messages}
