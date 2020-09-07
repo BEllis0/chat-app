@@ -157,6 +157,7 @@ class App extends React.Component {
                             handleMessageSubmit={this.handleMessageSubmit}
                             messages={this.state.messages}
                             errorMessage={this.state.errorMessage}
+                            username={this.state.username}
                         />
                     }
                 />
