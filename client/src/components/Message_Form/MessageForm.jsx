@@ -9,7 +9,12 @@ const MessageForm = props => {
                 }}>
                 <form id="messageForm">
                     <input onChange={ (e) => {props.handleMessageChange(e)} } className="formInput" id="formText" type="text" max="140" />
-                    <input className="formInput" id="formSubmit" type="submit" />
+                    <input
+                        disabled={props.errorMessage !== undefined ? true : false}
+                        className="formInput" 
+                        id="formSubmit" 
+                        type="submit" 
+                    />
                 </form>
             </div>
         )
