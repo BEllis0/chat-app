@@ -15,7 +15,9 @@ class App extends React.Component {
             messages: [],
             username: 'Guest',
             room: '',
-            activeUsers: []
+            messageText: '',
+            activeUsers: [],
+            errorMessage: undefined,
         };
 
         //bindings
@@ -24,6 +26,7 @@ class App extends React.Component {
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
         this.handleLoginRoomChange = this.handleLoginRoomChange.bind(this);
         this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
+        this.handleMessageChange = this.handleMessageChange.bind(this);
     }
 
     getAllMessages() {
@@ -64,10 +67,26 @@ class App extends React.Component {
         this.props.history.push('/chat');
     }
 
-    handleMessageSubmit(message) {
+    handleMessageChange(e) {
+        let message = e.target.value;
+        console.log(message, message.length)
+        if (message.length >= 140) {
+            console.log(message.length);
+            this.setState({
+                errorMessage: "Message more than 140 characters"
+            }, () => console.log(this.state.errorMessage));
+        } else {
+            this.setState({
+                messageText: e.target.value,
+                errorMessage: undefined // reset error 
+            });
+        }
+    }
+
+    handleMessageSubmit() {
         // send event with message object
         socket.emit('message', {
-            message: message,
+            message: this.state.messageText,
             username: this.state.username,
             room: this.state.room
         });
@@ -134,8 +153,10 @@ class App extends React.Component {
                         <MessagesView
                             activeUsers={this.state.activeUsers}
                             getAllMessages={this.getAllMessages}
+                            handleMessageChange={this.handleMessageChange}
                             handleMessageSubmit={this.handleMessageSubmit}
                             messages={this.state.messages}
+                            errorMessage={this.state.errorMessage}
                         />
                     }
                 />
