@@ -5,20 +5,21 @@ module.exports = {
         // socket.io listening
         io.on('connection', (socket) => {
             
-            let username = 'User';
+            let disconnectedUsername = 'User';
 
             // user disconnects
             socket.on('disconnect', () => {
                 console.log('user disconnected');
-                io.emit('connectionMessage', `${username} has left the chat`);
+                io.emit('disconnectionMessage', disconnectedUsername);
             });
 
             // new user connection message
-            socket.on('connectionMessage', (msg) => {
+            socket.on('connectionMessage', (username) => {
                 // set username for disconnect
-                username = msg.split(' ')[0];
+                disconnectedUsername = username;
                 
-                socket.broadcast.emit('connectionMessage', msg);
+                // emit new active user
+                io.emit('connectionMessage', username);
             });
 
             // user sends message
