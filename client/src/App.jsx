@@ -13,8 +13,8 @@ class App extends React.Component {
 
         this.state = {
             messages: [],
-            username: 'Guest',
-            room: '',
+            username: 'Guest', //default
+            room: 'General', //default
             messageText: '',
             activeUsers: [],
             errorMessage: undefined,
@@ -27,6 +27,7 @@ class App extends React.Component {
         this.handleLoginRoomChange = this.handleLoginRoomChange.bind(this);
         this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
         this.handleMessageChange = this.handleMessageChange.bind(this);
+        this.disconnectUser = this.disconnectUser.bind(this);
     }
 
     getAllMessages() {
@@ -59,7 +60,6 @@ class App extends React.Component {
     async handleLoginSubmit(e) {
         e.preventDefault();
 
-
         // send connection message to server with username
         await socket.emit('connectionMessage', this.state.activeUsers.concat(this.state.username));
   
@@ -69,12 +69,11 @@ class App extends React.Component {
 
     handleMessageChange(e) {
         let message = e.target.value;
-        console.log(message, message.length)
+        
         if (message.length >= 140) {
-            console.log(message.length);
             this.setState({
                 errorMessage: "Message more than 140 characters"
-            }, () => console.log(this.state.errorMessage));
+            });
         } else {
             this.setState({
                 messageText: e.target.value,
@@ -90,6 +89,14 @@ class App extends React.Component {
             username: this.state.username,
             room: this.state.room
         });
+
+        this.setState({
+            messageText: ''
+        });
+    }
+
+    disconnectUser() {
+        socket.emit('disconnect', this.state.username);
     }
 
     componentDidMount() {
@@ -107,7 +114,7 @@ class App extends React.Component {
             // add the new active user to state
             this.setState({ 
                 activeUsers: usernameArr
-            }, () => console.log('new active users state', this.state.activeUsers));
+            });
         });
 
         // listen for disconnection message
@@ -158,6 +165,8 @@ class App extends React.Component {
                             messages={this.state.messages}
                             errorMessage={this.state.errorMessage}
                             username={this.state.username}
+                            room={this.state.room}
+                            disconnectUser={this.disconnectUser}
                         />
                     }
                 />
