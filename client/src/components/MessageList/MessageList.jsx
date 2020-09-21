@@ -20,18 +20,20 @@ const MessageList = props => {
                 </div>
             }
             {props.messages.map(message => {
-                return (
-                    <div
-                        className={props.username === message.username ? "currentUser message" : "otherUser message"} 
-                        key={message.id}
-                    >
-                        <div className="flex">
-                            <p className="messageUsername">{message.username}</p>
-                            <p className="messageDate">{dateConverter(message._date, 'hourly')}</p>
+                if (message.room === props.room) {
+                    return (
+                        <div
+                            className={props.username === message.username ? "currentUser message" : "otherUser message"} 
+                            key={message.id}
+                        >
+                            <div className="flex">
+                                <p className="messageUsername">{message.username}</p>
+                                <p className="messageDate">{dateConverter(message._date, 'hourly')}</p>
+                            </div>
+                            <p className="rm-margin">{message.message}</p>
                         </div>
-                        <p className="rm-margin">{message.message}</p>
-                    </div>
-                )
+                    )
+                }
             })}
         </div>
     )
