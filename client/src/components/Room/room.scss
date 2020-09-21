@@ -1,0 +1,10 @@
+@import '../../variables.scss';
+
+.roomContainer {
+    padding: 10px 20px;
+}
+
+.room {
+    border-bottom: 5px solid $messagesBackground;
+    padding-bottom: 3px;
+}

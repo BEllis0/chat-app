@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './activeUsers.scss';
 
 const ActiveUsers = props => {
-    console.log('active users comp', props)
     return (
         <div className="activeUsersContainer">
             <h3>Active Users</h3>

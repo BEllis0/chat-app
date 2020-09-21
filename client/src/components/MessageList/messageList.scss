@@ -4,11 +4,36 @@
     padding: 10px 20px;
     height: 400px;
     overflow-y: scroll;
+    background-color: $messagesBackground;
+}
+
+.currentUser {
+    background-color: $white;
+}
+
+.otherUser {
+    background-color: $purplergba;
 }
 
 .message {
     padding: 15px;
-    background-color: $white;
     border-radius: 4px;
     margin: 12px 0px;
+}
+
+.messageDate {
+    margin-left: 10px;
+    color: $purplergba;
+}
+
+.messageUsername {
+    font-weight: 550;
+}
+
+.messageUsername, .messageDate {
+    margin-top: 0px;
+}
+
+.emptyMessage {
+    color: $white;
 }

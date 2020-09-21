@@ -21,6 +21,8 @@ const LoginView = props => {
                     <label>Chat Room</label>
                     <select value={props.room} onChange={props.handleLoginRoomChange} className=" input roomSelect">
                         <option className="selectOption" value="general">General</option>
+                        <option className="selectOption" value="hiking">Hiking</option>
+                        <option className="selectOption" value="sports">Sports</option>
                     </select>
                     <br />
                     <input type="submit" className="loginSubmit button" value="Join Chat Room" />

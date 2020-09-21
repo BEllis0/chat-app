@@ -1,7 +1,7 @@
 {
   "name": "chat_app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Chat application built with Socket.io and React",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",

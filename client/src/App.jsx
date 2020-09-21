@@ -13,9 +13,11 @@ class App extends React.Component {
 
         this.state = {
             messages: [],
-            username: 'Guest',
-            room: '',
-            activeUsers: []
+            username: 'Guest', //default
+            room: 'General', //default
+            messageText: '',
+            activeUsers: [],
+            errorMessage: undefined,
         };
 
         //bindings
@@ -24,6 +26,8 @@ class App extends React.Component {
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
         this.handleLoginRoomChange = this.handleLoginRoomChange.bind(this);
         this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
+        this.handleMessageChange = this.handleMessageChange.bind(this);
+        this.disconnectUser = this.disconnectUser.bind(this);
     }
 
     getAllMessages() {
@@ -56,7 +60,6 @@ class App extends React.Component {
     async handleLoginSubmit(e) {
         e.preventDefault();
 
-
         // send connection message to server with username
         await socket.emit('connectionMessage', this.state.activeUsers.concat(this.state.username));
   
@@ -64,13 +67,36 @@ class App extends React.Component {
         this.props.history.push('/chat');
     }
 
-    handleMessageSubmit(message) {
+    handleMessageChange(e) {
+        let message = e.target.value;
+        
+        if (message.length >= 140) {
+            this.setState({
+                errorMessage: "Message more than 140 characters"
+            });
+        } else {
+            this.setState({
+                messageText: e.target.value,
+                errorMessage: undefined // reset error 
+            });
+        }
+    }
+
+    handleMessageSubmit() {
         // send event with message object
         socket.emit('message', {
-            message: message,
+            message: this.state.messageText,
             username: this.state.username,
             room: this.state.room
         });
+
+        this.setState({
+            messageText: ''
+        });
+    }
+
+    disconnectUser() {
+        socket.emit('disconnect', this.state.username);
     }
 
     componentDidMount() {
@@ -88,7 +114,7 @@ class App extends React.Component {
             // add the new active user to state
             this.setState({ 
                 activeUsers: usernameArr
-            }, () => console.log('new active users state', this.state.activeUsers));
+            });
         });
 
         // listen for disconnection message
@@ -134,8 +160,13 @@ class App extends React.Component {
                         <MessagesView
                             activeUsers={this.state.activeUsers}
                             getAllMessages={this.getAllMessages}
+                            handleMessageChange={this.handleMessageChange}
                             handleMessageSubmit={this.handleMessageSubmit}
                             messages={this.state.messages}
+                            errorMessage={this.state.errorMessage}
+                            username={this.state.username}
+                            room={this.state.room}
+                            disconnectUser={this.disconnectUser}
                         />
                     }
                 />
