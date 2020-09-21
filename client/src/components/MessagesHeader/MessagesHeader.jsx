@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './messagesHeader.scss';
+import { Link } from 'react-router-dom';
 
 const MessagesHeader = props => {
     return (
@@ -8,7 +9,11 @@ const MessagesHeader = props => {
                 <img className="headerIcon" src="https://image.flaticon.com/icons/svg/2950/2950648.svg" />
                 <h1 className="rm-margin">Tele.gram</h1>
             </div>
-            <button className="button">Leave Room</button>
+            <a href="/">
+            {/* <Link to="/" onClick={ props.disconnectUser }> */}
+                <button className="button">Leave Room</button>
+            {/* </Link> */}
+            </a>
         </div>
     )
 };
