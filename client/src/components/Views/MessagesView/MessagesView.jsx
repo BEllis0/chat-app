@@ -11,16 +11,20 @@ const MessagesView = props => {
     return (
         <div className="messagesViewContainer">
             
-            <MessagesHeader />
+            <MessagesHeader
+                disconnectUser={props.disconnectUser}
+            />
             
             <div className="flex">
                 <Sidebar
                     activeUsers={props.activeUsers}
+                    room={props.room}
                 />
                 <div className="messagesModule">
                     <MessageList 
                         messages={props.messages}
                         username={props.username}
+                        room={props.room}
                     />
                     {props.errorMessage !== undefined &&
                         <ErrorMessage 
