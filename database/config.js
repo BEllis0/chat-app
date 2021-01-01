@@ -1,12 +1,23 @@
 const { Pool, Client } = require('pg');
 
-const config = {
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: 'chat_app',
-  password: process.env.DB_PASS,
-  port: '5432',
+const localConfig = {
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: 'chat_app',
+    password: process.env.PASSWORD,
+    port: '5432',
 };
+
+const productionConfig = {
+    user: process.env.PROD_USER,
+    host: process.env.PROD_HOST,
+    database: process.env.PROD_DB,
+    password: process.env.PROD_PASS,
+    port: '5432',
+};
+
+// set config based on local or prod
+const config = process.env.NODE_ENV === 'production' ? productionConfig : localConfig;
 
 module.exports.dbConnection = new Pool(config);
 
