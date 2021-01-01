@@ -12,7 +12,7 @@ const productionConfig = {
     user: process.env.PROD_USER,
     host: process.env.PROD_HOST,
     database: process.env.PROD_DB,
-    password: process.env.PROD_PASS,
+    password: process.env.PROD_PASSWORD,
     port: '5432',
 };
 
@@ -21,7 +21,6 @@ const productionConfig = {
 const config = process.env.NODE_ENV === 'production' ? productionConfig : localConfig;
 
 console.log('Environment: ', process.env.NODE_ENV);
-console.log('Config: ', config)
 
 module.exports.dbConnection = new Pool(config);
 
