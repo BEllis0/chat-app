@@ -110,6 +110,7 @@ class App extends React.Component {
         socket.on('connectionMessage', usernameArr => {
             
             // let activeUsers = this.state.activeUsers.concat(username);
+            console.log('connection, user array', usernameArr)
             
             // add the new active user to state
             this.setState({ 
