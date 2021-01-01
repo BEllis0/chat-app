@@ -7,9 +7,14 @@ module.exports = {
             
             let disconnectedUsername = 'User';
 
+            let usersArr = [];
+
             // user disconnects
             socket.on('disconnect', () => {
                 console.log('user disconnected');
+                if (usersArr.includes(disconnectedUsername)) {
+                    console.log('disconnected user in users arr in server')
+                }
                 io.emit('disconnectionMessage', disconnectedUsername);
             });
 
@@ -17,6 +22,9 @@ module.exports = {
             socket.on('connectionMessage', (username) => {
                 // set username for disconnect
                 disconnectedUsername = username;
+
+                usersArr.push(username)
+                console.log('users array in server', usersArr);
                 
                 // emit new active user
                 io.emit('connectionMessage', username);
