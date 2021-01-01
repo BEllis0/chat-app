@@ -31,7 +31,7 @@ class App extends React.Component {
     }
 
     getAllMessages() {
-        fetch('http://localhost:3000/api/v1/messages/')
+        fetch('/api/v1/messages/')
         .then(response => {
             return response.json();
         })
