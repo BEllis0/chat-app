@@ -16,6 +16,8 @@ const productionConfig = {
     port: '5432',
 };
 
+console.log('Environment: ', process.env.NODE_ENV);
+
 // set config based on local or prod
 const config = process.env.NODE_ENV === 'production' ? productionConfig : localConfig;
 
